@@ -5,11 +5,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cars", uniqueConstraints = {@UniqueConstraint(columnNames = {"model", "series"})})
+@Table(name = "cars")
 public class Car implements Serializable {
 
     @Id
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

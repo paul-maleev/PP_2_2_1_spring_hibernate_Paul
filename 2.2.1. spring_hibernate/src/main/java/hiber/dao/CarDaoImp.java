@@ -34,6 +34,7 @@ public class CarDaoImp implements CarDao {
             if (car != null) {
                 session.delete(car);
             }
+            session.close();
         }
     }
 

@@ -23,7 +23,6 @@ public class CarServiceImp implements CarService {
     @Override
     @Transactional
     public void delete(Car car) {
-        // userDao.delete(user);
         carDao.delete(car);
     }
 
