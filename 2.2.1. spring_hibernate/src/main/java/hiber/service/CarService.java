@@ -11,4 +11,8 @@ public interface CarService {
 
     List<Car> listCars();
 
+    void deleteAllCars();
+
+
+
 }

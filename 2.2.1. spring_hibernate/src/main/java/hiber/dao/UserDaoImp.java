@@ -1,7 +1,6 @@
 package hiber.dao;
 
 import hiber.model.User;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -18,15 +17,9 @@ public class UserDaoImp implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public User findUserById(int id) {
-        Session session;
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-
-        }
-        return session.get(User.class, Long.valueOf(id));
+    public User findUserById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(User.class, id);
     }
 
     @Override
@@ -36,28 +29,15 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void delete(User user) {
-        Session session;
-        try {
-            session = sessionFactory.getCurrentSession();
-            User currentUser = session.get(User.class, user.getId());
-            if (user != null) {
-                session.delete(currentUser);
-            }
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-            User currentUser = session.get(User.class, user.getId());
-            if (user != null) {
-                session.delete(currentUser);
-            }
-            session.close();
+        Session session = sessionFactory.getCurrentSession();
+        if (user != null) {
+            session.delete(user);
         }
-
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
-        //TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM User u JOIN FETCH u.car");
         return query.getResultList();
     }
@@ -68,7 +48,7 @@ public class UserDaoImp implements UserDao {
         Query<User> query = sessionFactory.getCurrentSession().createQuery(hql, User.class);
         query.setParameter("model", model);
         query.setParameter("serial", serial);
-        return query.getSingleResult();
+        return query.setMaxResults(1).getSingleResult();
     }
 
 }

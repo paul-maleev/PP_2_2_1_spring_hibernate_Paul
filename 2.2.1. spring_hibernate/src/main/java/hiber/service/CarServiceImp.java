@@ -31,4 +31,11 @@ public class CarServiceImp implements CarService {
     public List<Car> listCars() {
         return carDao.listCars();
     }
+
+    @Override
+    public void deleteAllCars() {
+        for(Car car : carDao.listCars()) {
+            carDao.delete(car);
+        }
+    }
 }

@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> listUsers();
 
-    User findById(int id);
+    User findById(Long id);
 
     User getUserByCarModelAndSerial(String model, int serial);
 }
